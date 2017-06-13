@@ -64,4 +64,15 @@ public class Connect {
             ex.printStackTrace();
         }
     }
+    
+    public static void updateData(String table, String set, Integer id){
+        try{
+            Statement stmt = (Statement) Connect.GetConnection().createStatement();
+            String query = "update " + table + " set " + set + " where id=" + id;
+            stmt.executeUpdate(query);
+            stmt.close();
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }

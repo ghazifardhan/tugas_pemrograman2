@@ -68,8 +68,10 @@ public class MainView extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableResult = new javax.swing.JTable();
         btnSubmit = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnPrint = new javax.swing.JButton();
+        btnTampil = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,17 +100,31 @@ public class MainView extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Delete");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnDeleteActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Cetak");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnPrint.setText("Cetak");
+        btnPrint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnPrintActionPerformed(evt);
+            }
+        });
+
+        btnTampil.setText("Tampil");
+        btnTampil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTampilActionPerformed(evt);
+            }
+        });
+
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
             }
         });
 
@@ -119,22 +135,29 @@ public class MainView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tfNim)
-                            .addComponent(tfNama)
-                            .addComponent(cbProdi, 0, 178, Short.MAX_VALUE))
-                        .addGap(46, 46, 46)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnSubmit, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE))))
+                            .addComponent(jLabel3)
+                            .addComponent(btnPrint))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(tfNim)
+                                    .addComponent(tfNama)
+                                    .addComponent(cbProdi, 0, 178, Short.MAX_VALUE))
+                                .addGap(46, 46, 46)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnSubmit, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(btnTampil)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnUpdate)))))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -153,15 +176,18 @@ public class MainView extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSubmit)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1)
+                        .addComponent(btnDelete)
                         .addGap(1, 1, 1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbProdi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPrint)
+                    .addComponent(btnTampil)
+                    .addComponent(btnUpdate))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -197,7 +223,7 @@ public class MainView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSubmitActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
         int row = tableResult.getSelectedRow();
         
@@ -216,9 +242,9 @@ public class MainView extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
         // TODO add your handling code here:
        String dir;
        File file = new File(".");
@@ -229,11 +255,46 @@ public class MainView extends javax.swing.JFrame {
            ResultSet rs = Connect.selectData("mahasiswa");
            JRResultSetDataSource result = new JRResultSetDataSource(rs);
            JasperPrint print = JasperFillManager.fillReport(jr, new HashMap(), result);
-           JasperViewer.viewReport(print);
+           JasperViewer.viewReport(print, false);
        } catch(Exception e){
            e.printStackTrace();
        }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnPrintActionPerformed
+
+    private void btnTampilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTampilActionPerformed
+        // TODO add your handling code here:
+        int row = tableResult.getSelectedRow();
+        
+        String id = model.getValueAt(row, 0).toString();
+        String nim = model.getValueAt(row, 1).toString();
+        String nama = model.getValueAt(row, 2).toString();
+        String prodi = model.getValueAt(row, 3).toString();
+        
+        tfNim.setText(nim);
+        tfNama.setText(nama);
+        cbProdi.setSelectedItem(prodi);
+    }//GEN-LAST:event_btnTampilActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        int row = tableResult.getSelectedRow();
+        
+        String id = model.getValueAt(row, 0).toString();
+        
+        String table = "mahasiswa";
+        String set = "nim = '"+ tfNim.getText() +"', nama = '"+ tfNama.getText() +"', prodi = '"+ cbProdi.getSelectedItem().toString() +"'";
+        Connect.updateData(table, set, Integer.parseInt(id));
+        model.setRowCount(0);
+        ResultSet rs = Connect.selectData("mahasiswa");
+        try {
+            while(rs.next()){
+                Object[] data = {rs.getString("id"), rs.getString("nim"), rs.getString("nama"), rs.getString("prodi")};
+                model.addRow(data);
+            }       
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -271,10 +332,12 @@ public class MainView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnSubmit;
+    private javax.swing.JButton btnTampil;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbProdi;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
