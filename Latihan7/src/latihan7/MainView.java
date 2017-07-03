@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -35,6 +36,7 @@ public class MainView extends javax.swing.JFrame {
      */
     
     private DefaultTableModel model;
+    JOptionPane jp = new JOptionPane();
     public MainView() {
         initComponents();
         
@@ -42,7 +44,7 @@ public class MainView extends javax.swing.JFrame {
         ResultSet rs = Connect.selectData("mahasiswa");
         try {
             while(rs.next()){
-                Object[] data = {rs.getString("id"), rs.getString("nim"), rs.getString("nama"), rs.getString("prodi")};
+                Object[] data = {rs.getString("nim"), rs.getString("nama"), rs.getString("nilai")};
                 model.addRow(data);
             }       
         } catch (SQLException ex) {
@@ -64,7 +66,6 @@ public class MainView extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         tfNim = new javax.swing.JTextField();
         tfNama = new javax.swing.JTextField();
-        cbProdi = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableResult = new javax.swing.JTable();
         btnSubmit = new javax.swing.JButton();
@@ -72,6 +73,8 @@ public class MainView extends javax.swing.JFrame {
         btnPrint = new javax.swing.JButton();
         btnTampil = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
+        tfNilai = new javax.swing.JTextField();
+        search = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,16 +82,14 @@ public class MainView extends javax.swing.JFrame {
 
         jLabel2.setText("Nama");
 
-        jLabel3.setText("Prodi");
-
-        cbProdi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "== Pilih ==", "Teknik Informatika", "Sistem Informasi", "Manajemen Informatika" }));
+        jLabel3.setText("Nilai");
 
         tableResult.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "NIM", "Nama", "Prodi"
+                "NIM", "Nama", "Nilai"
             }
         ));
         jScrollPane1.setViewportView(tableResult);
@@ -128,6 +129,13 @@ public class MainView extends javax.swing.JFrame {
             }
         });
 
+        search.setText("Search");
+        search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -146,19 +154,21 @@ public class MainView extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(20, 20, 20)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(tfNim)
+                                    .addComponent(tfNim, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
                                     .addComponent(tfNama)
-                                    .addComponent(cbProdi, 0, 178, Short.MAX_VALUE))
+                                    .addComponent(tfNilai, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addGap(46, 46, 46)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnSubmit, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)))
+                                    .addComponent(btnSubmit, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+                                    .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(btnTampil)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnUpdate)))))
-                .addContainerGap(28, Short.MAX_VALUE))
+                                .addComponent(btnUpdate)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(search)))))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,13 +190,14 @@ public class MainView extends javax.swing.JFrame {
                         .addGap(1, 1, 1)))
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbProdi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(tfNilai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPrint)
                     .addComponent(btnTampil)
-                    .addComponent(btnUpdate))
+                    .addComponent(btnUpdate)
+                    .addComponent(search))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -199,23 +210,19 @@ public class MainView extends javax.swing.JFrame {
         // TODO add your handling code here:
         String nim = tfNim.getText();
         String nama = tfNama.getText();
-        String prodi;
-        if(cbProdi.getSelectedIndex() != 0){
-            prodi = cbProdi.getSelectedItem().toString();
-        } else {
-            prodi = "Null";
-        }
+        String nilai = tfNilai.getText();
         
-        String value = "('"+nim+"','"+nama+"','"+prodi+"')";
+        
+        String value = "('"+nim+"','"+nama+"','"+nilai+"')";
         String table = "mahasiswa";
-        String atr = "(nim, nama, prodi)";
+        String atr = "(nim, nama, nilai)";
         
         Connect.insertData(table, atr, value);
         model.setRowCount(0);
         ResultSet rs = Connect.selectData(table);
         try {
             while(rs.next()){
-                Object[] data = {rs.getString("id"), rs.getString("nim"), rs.getString("nama"), rs.getString("prodi")};
+                Object[] data = {rs.getString("nim"), rs.getString("nama"), rs.getString("nilai")};
                 model.addRow(data);
             }       
         } catch (SQLException ex) {
@@ -235,7 +242,7 @@ public class MainView extends javax.swing.JFrame {
         ResultSet rs = Connect.selectData("mahasiswa");
         try {
             while(rs.next()){
-                Object[] data = {rs.getString("id"), rs.getString("nim"), rs.getString("nama"), rs.getString("prodi")};
+                Object[] data = {rs.getString("nim"), rs.getString("nama"), rs.getString("nilai")};
                 model.addRow(data);
             }       
         } catch (SQLException ex) {
@@ -250,7 +257,7 @@ public class MainView extends javax.swing.JFrame {
        File file = new File(".");
        try{
            dir = file.getCanonicalPath()+"/src/laporan/";
-           JasperDesign jd = JRXmlLoader.load(dir+"mhsReport.jrxml");
+           JasperDesign jd = JRXmlLoader.load(dir+"report.jrxml");
            JasperReport jr = JasperCompileManager.compileReport(jd);
            ResultSet rs = Connect.selectData("mahasiswa");
            JRResultSetDataSource result = new JRResultSetDataSource(rs);
@@ -265,14 +272,13 @@ public class MainView extends javax.swing.JFrame {
         // TODO add your handling code here:
         int row = tableResult.getSelectedRow();
         
-        String id = model.getValueAt(row, 0).toString();
-        String nim = model.getValueAt(row, 1).toString();
-        String nama = model.getValueAt(row, 2).toString();
-        String prodi = model.getValueAt(row, 3).toString();
+        String nim = model.getValueAt(row, 0).toString();
+        String nama = model.getValueAt(row, 1).toString();
+        String nilai = model.getValueAt(row, 2).toString();
         
         tfNim.setText(nim);
         tfNama.setText(nama);
-        cbProdi.setSelectedItem(prodi);
+        tfNilai.setText(nilai);
     }//GEN-LAST:event_btnTampilActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -282,19 +288,34 @@ public class MainView extends javax.swing.JFrame {
         String id = model.getValueAt(row, 0).toString();
         
         String table = "mahasiswa";
-        String set = "nim = '"+ tfNim.getText() +"', nama = '"+ tfNama.getText() +"', prodi = '"+ cbProdi.getSelectedItem().toString() +"'";
+        String set = "nim = '"+ tfNim.getText() +"', nama = '"+ tfNama.getText() +"', nilai = '"+ tfNilai.getText() +"'";
         Connect.updateData(table, set, Integer.parseInt(id));
         model.setRowCount(0);
         ResultSet rs = Connect.selectData("mahasiswa");
         try {
             while(rs.next()){
-                Object[] data = {rs.getString("id"), rs.getString("nim"), rs.getString("nama"), rs.getString("prodi")};
+                Object[] data = {rs.getString("nim"), rs.getString("nama"), rs.getString("nilai")};
                 model.addRow(data);
             }       
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+        // TODO add your handling code here:
+        Integer id = Integer.parseInt(tfNim.getText());
+        ResultSet rs = Connect.findData("mahasiswa", id);
+        try{
+            while(rs.next()){
+                jp.showMessageDialog(null, rs.getString("nama") + " - " +rs.getString("nilai") );
+                tfNama.setText(rs.getString("nama"));
+                tfNilai.setText(rs.getString("nilai"));
+            }
+        } catch(SQLException ex){
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_searchActionPerformed
 
     /**
      * @param args the command line arguments
@@ -337,13 +358,14 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JButton btnSubmit;
     private javax.swing.JButton btnTampil;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JComboBox<String> cbProdi;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton search;
     private javax.swing.JTable tableResult;
     private javax.swing.JTextField tfNama;
+    private javax.swing.JTextField tfNilai;
     private javax.swing.JTextField tfNim;
     // End of variables declaration//GEN-END:variables
 }

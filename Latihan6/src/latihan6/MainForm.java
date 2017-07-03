@@ -15,6 +15,7 @@ public class MainForm extends javax.swing.JFrame {
      * Creates new form MainForm
      */
     NewJInternalFrame frame = new NewJInternalFrame();
+    
     public MainForm() {
         initComponents();
     }

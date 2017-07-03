@@ -38,14 +38,14 @@
                           <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="tfNim" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="tfNim" alignment="0" pref="178" max="32767" attributes="0"/>
                                   <Component id="tfNama" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="cbProdi" alignment="0" pref="178" max="32767" attributes="0"/>
+                                  <Component id="tfNilai" alignment="1" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="btnSubmit" pref="111" max="32767" attributes="0"/>
                                   <Component id="btnDelete" max="32767" attributes="0"/>
-                                  <Component id="btnSubmit" pref="79" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -53,11 +53,13 @@
                               <Component id="btnTampil" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="btnUpdate" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="search" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="28" max="32767" attributes="0"/>
+              <EmptySpace pref="31" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -86,14 +88,15 @@
               </Group>
               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="cbProdi" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfNilai" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnPrint" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnTampil" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnUpdate" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="search" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="28" max="32767" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="402" max="-2" attributes="0"/>
@@ -115,27 +118,12 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Prodi"/>
+        <Property name="text" type="java.lang.String" value="Nilai"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfNim">
     </Component>
     <Component class="javax.swing.JTextField" name="tfNama">
-    </Component>
-    <Component class="javax.swing.JComboBox" name="cbProdi">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="== Pilih =="/>
-            <StringItem index="1" value="Teknik Informatika"/>
-            <StringItem index="2" value="Sistem Informasi"/>
-            <StringItem index="3" value="Manajemen Informatika"/>
-          </StringArray>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
@@ -147,11 +135,10 @@
         <Component class="javax.swing.JTable" name="tableResult">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="0">
-                <Column editable="true" title="ID" type="java.lang.Object"/>
+              <Table columnCount="3" rowCount="0">
                 <Column editable="true" title="NIM" type="java.lang.Object"/>
                 <Column editable="true" title="Nama" type="java.lang.Object"/>
-                <Column editable="true" title="Prodi" type="java.lang.Object"/>
+                <Column editable="true" title="Nilai" type="java.lang.Object"/>
               </Table>
             </Property>
           </Properties>
@@ -196,6 +183,16 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="tfNilai">
+    </Component>
+    <Component class="javax.swing.JButton" name="search">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Search"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

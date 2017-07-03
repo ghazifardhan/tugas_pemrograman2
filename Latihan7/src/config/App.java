@@ -13,6 +13,6 @@ public class App {
     
     public static final String dbName = "latihan_java";
     public static final String userName = "root";
-    public static final String passWord = "markibid";
+    public static final String passWord = "";
     
 }

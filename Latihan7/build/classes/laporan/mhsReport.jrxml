@@ -35,26 +35,6 @@
 	</pageHeader>
 	<columnHeader>
 		<band height="26" splitType="Stretch">
-			<staticText>
-				<reportElement x="113" y="0" width="45" height="20" uuid="6114bbdc-67b0-4704-8111-8b19cac66162"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[id]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="158" y="0" width="130" height="20" uuid="8c9369fe-40aa-48c8-970c-613e95962cf4"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[nim]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="288" y="0" width="200" height="20" uuid="9c294351-6c32-4e72-a5cc-eaeedd134333"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[nama]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="488" y="0" width="200" height="20" uuid="7178cbc7-da55-47b0-938a-93cc402d3d0f"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[prodi]]></text>
-			</staticText>
 			<line>
 				<reportElement x="100" y="19" width="599" height="1" uuid="feec3608-fcd8-4595-9807-bfb1555e1e25"/>
 			</line>
@@ -62,26 +42,6 @@
 	</columnHeader>
 	<detail>
 		<band height="27" splitType="Stretch">
-			<textField>
-				<reportElement x="113" y="0" width="45" height="20" uuid="9ae464c6-c876-4d4f-82c3-7c33078e559c"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="158" y="0" width="130" height="20" uuid="229fdc1e-9236-4268-9eaa-aef857d58aaf"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{nim}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="288" y="0" width="200" height="20" uuid="2cde760b-ec66-4a26-9ed2-206ef64f7f9e"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="488" y="0" width="200" height="20" uuid="29d952a3-0c5b-45ef-b14d-790d3b87141d"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{prodi}]]></textFieldExpression>
-			</textField>
 			<line>
 				<reportElement x="100" y="20" width="599" height="1" uuid="9c6dcbcb-08c9-44e8-a270-80b394807f8a"/>
 			</line>
