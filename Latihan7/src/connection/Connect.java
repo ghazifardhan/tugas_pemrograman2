@@ -57,7 +57,7 @@ public class Connect {
     public static void deleteData(String table, Integer id){
         try{
             Statement stmt = (Statement) Connect.GetConnection().createStatement();
-            String query = "delete from " + table + " where id=" + id;
+            String query = "delete from " + table + " where nim=" + id;
             stmt.executeUpdate(query);
             stmt.close();
         } catch (Exception ex){
@@ -66,13 +66,26 @@ public class Connect {
     }
     
     public static void updateData(String table, String set, Integer id){
+        
         try{
             Statement stmt = (Statement) Connect.GetConnection().createStatement();
-            String query = "update " + table + " set " + set + " where id=" + id;
+            String query = "update " + table + " set " + set + " where nim=" + id;
             stmt.executeUpdate(query);
             stmt.close();
         } catch(Exception e){
             e.printStackTrace();
         }
     }
+    
+    public static ResultSet findData(String table, Integer id){
+        ResultSet rs = null;
+        try{
+            Statement stmt = (Statement) Connect.GetConnection().createStatement();
+            String query = "select * from " + table + " where nim="+id;
+            rs = stmt.executeQuery(query);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return rs;        
+    } 
 }
