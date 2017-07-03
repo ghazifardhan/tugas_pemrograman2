@@ -5,22 +5,21 @@
  */
 package database;
 
-import com.mysql.jdbc.Driver;
-import com.mysql.jdbc.Statement;
-import java.sql.DriverManager;
 import java.sql.Connection;
+import com.mysql.jdbc.Driver;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
  * @author markibid
  */
 public class Database {
-    
     private static Connection conn;
     
-    private static String dbName = "inventory";
+    private static String dbName = "manage_gaji";
     private static String dbUserName = "root";
     private static String dbPassWord = "markibid";
     
@@ -90,5 +89,4 @@ public class Database {
             e.printStackTrace();
         }
     }
-    
 }

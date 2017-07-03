@@ -8,8 +8,6 @@ package view;
 import database.Database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,6 +19,7 @@ public class LoginView extends javax.swing.JFrame {
     /**
      * Creates new form LoginView
      */
+    
     String username, password;
     
     public LoginView() {
@@ -76,7 +75,7 @@ public class LoginView extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnLogin)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(0, 168, Short.MAX_VALUE))
                             .addComponent(tfPassword))))
                 .addContainerGap())
         );
@@ -97,7 +96,7 @@ public class LoginView extends javax.swing.JFrame {
         );
 
         jLabel3.setFont(new java.awt.Font("Open Sans", 1, 18)); // NOI18N
-        jLabel3.setText("APLIKASI INVENTORY");
+        jLabel3.setText("APLIKASI MANAJEMEN GAJI");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -108,9 +107,9 @@ public class LoginView extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(109, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addGap(102, 102, 102))
+                .addGap(65, 65, 65))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,8 +123,7 @@ public class LoginView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    
+
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
         username = tfUsername.getText();
@@ -144,7 +142,7 @@ public class LoginView extends javax.swing.JFrame {
                         mv.setVisible(true);
                     }
                 } else {
-                        JOptionPane.showMessageDialog(this, "Username/Password false!");
+                    JOptionPane.showMessageDialog(this, "Username/Password false!");
                 }
             } catch (SQLException ex) {
                 ex.getMessage();
