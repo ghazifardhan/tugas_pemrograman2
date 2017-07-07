@@ -89,4 +89,16 @@ public class Database {
             e.printStackTrace();
         }
     }
+    
+    public static ResultSet generateInOut(){
+        ResultSet rs= null;
+        try{
+            Statement stmt = (Statement) Database.GetConnection().createStatement();
+            String query = "SELECT a.id, b.name as account, c.name as type, d.name as category, a.amount, a.transaction_date, a.description FROM inoutcome as a JOIN asset as b ON b.id = a.asset_id JOIN type as c ON c.id = a.transaction_type JOIN category as d ON d.id = a.category_id";
+            rs = stmt.executeQuery(query);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }

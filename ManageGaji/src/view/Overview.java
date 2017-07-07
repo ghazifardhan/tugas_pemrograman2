@@ -5,6 +5,12 @@
  */
 package view;
 
+import database.Database;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author cube
@@ -14,10 +20,39 @@ public class Overview extends javax.swing.JInternalFrame {
     /**
      * Creates new form Overview
      */
+    DefaultTableModel model = new DefaultTableModel();
+    ArrayList<Integer> in = new ArrayList<Integer>(); 
+    ArrayList<Integer> out = new ArrayList<Integer>(); 
+    Integer totalIn, totalOut;
     public Overview() {
         initComponents();
+        model = (DefaultTableModel) table.getModel();
+        generateData();
+        
+        for(int i=0;i<in.size();i++){
+            totalIn = totalIn + in.get(i);
+        }
+        System.out.println(totalIn+"");
     }
 
+    private void generateData(){
+        model.setRowCount(0);
+        ResultSet rs = Database.generateInOut();
+        try{
+            while(rs.next()){
+               Object[] data = { rs.getString("id"), rs.getString("account"), rs.getString("type"), rs.getString("category"), rs.getInt("amount"), rs.getString("transaction_date"), rs.getString("description")};
+               model.addRow(data);
+               if(rs.getString("type").equals("Income")){
+                   in.add(rs.getInt("amount"));
+               } else {
+                   out.add(rs.getInt("amount"));
+               }                   
+            }
+        } catch(SQLException ex){
+            ex.getMessage();
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,7 +91,7 @@ public class Overview extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "No", "Account", "Tyoe", "In/Out", "Category", "Amont", "Date", "Description"
+                "No", "Account", "Type", "Category", "Amont", "Date", "Description"
             }
         ));
         jScrollPane1.setViewportView(table);

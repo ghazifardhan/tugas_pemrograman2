@@ -213,7 +213,7 @@ public class InputInOutcomeView extends javax.swing.JInternalFrame {
         if(rbIncome.isSelected()){
             cbCategory.removeAllItems();
             generateCategoryData(1);
-            trans_type = 0;
+            trans_type = 1;
         }
     }//GEN-LAST:event_rbIncomeActionPerformed
 
@@ -222,7 +222,7 @@ public class InputInOutcomeView extends javax.swing.JInternalFrame {
         if(rbOutcome.isSelected()){
             cbCategory.removeAllItems();
             generateCategoryData(2);
-            trans_type = 1;
+            trans_type = 2;
         }
     }//GEN-LAST:event_rbOutcomeActionPerformed
 
