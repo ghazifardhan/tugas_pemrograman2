@@ -8,6 +8,8 @@ package view;
 import database.Database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,16 +25,23 @@ public class Overview extends javax.swing.JInternalFrame {
     DefaultTableModel model = new DefaultTableModel();
     ArrayList<Integer> in = new ArrayList<Integer>(); 
     ArrayList<Integer> out = new ArrayList<Integer>(); 
-    Integer totalIn, totalOut;
+    Integer totalIn = 0, totalOut = 0, totalMoney = 0;
+    
+    DecimalFormat IndonesiaCurrency = (DecimalFormat) DecimalFormat.getCurrencyInstance();
+    DecimalFormatSymbols RupiahFormat = new DecimalFormatSymbols();
+    
     public Overview() {
         initComponents();
+        
+        RupiahFormat.setCurrencySymbol("Rp ");
+        RupiahFormat.setMonetaryDecimalSeparator(',');
+        RupiahFormat.setGroupingSeparator('.');
+
+        IndonesiaCurrency.setDecimalFormatSymbols(RupiahFormat);
+        
         model = (DefaultTableModel) table.getModel();
         generateData();
-        
-        for(int i=0;i<in.size();i++){
-            totalIn = totalIn + in.get(i);
-        }
-        System.out.println(totalIn+"");
+        arraySum();
     }
 
     private void generateData(){
@@ -40,7 +49,7 @@ public class Overview extends javax.swing.JInternalFrame {
         ResultSet rs = Database.generateInOut();
         try{
             while(rs.next()){
-               Object[] data = { rs.getString("id"), rs.getString("account"), rs.getString("type"), rs.getString("category"), rs.getInt("amount"), rs.getString("transaction_date"), rs.getString("description")};
+               Object[] data = { rs.getString("id"), rs.getString("account"), rs.getString("type"), rs.getString("category"), IndonesiaCurrency.format(rs.getInt("amount")), rs.getString("transaction_date"), rs.getString("description")};
                model.addRow(data);
                if(rs.getString("type").equals("Income")){
                    in.add(rs.getInt("amount"));
@@ -51,6 +60,23 @@ public class Overview extends javax.swing.JInternalFrame {
         } catch(SQLException ex){
             ex.getMessage();
         }
+    }
+    
+    private void arraySum(){
+        for(int i=0;i<in.size();i++){
+            totalIn += in.get(i);
+        }
+        for(int i=0;i<out.size();i++){
+            totalOut += out.get(i);
+        }
+        
+        totalMoney = totalIn - totalOut;
+        
+        
+        // Display to corresponding textfield
+        labelIncome.setText(IndonesiaCurrency.format(totalIn));
+        labelOutcome.setText(IndonesiaCurrency.format(totalOut));
+        labelCurrMoney.setText(IndonesiaCurrency.format(totalMoney));
     }
     
     /**
@@ -66,11 +92,11 @@ public class Overview extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        tfIncome = new javax.swing.JTextField();
-        tfOutcome = new javax.swing.JTextField();
-        tfCurrMoney = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        labelIncome = new javax.swing.JLabel();
+        labelOutcome = new javax.swing.JLabel();
+        labelCurrMoney = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -96,6 +122,15 @@ public class Overview extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(table);
 
+        labelIncome.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
+        labelIncome.setText("Rp -");
+
+        labelOutcome.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
+        labelOutcome.setText("Rp -");
+
+        labelCurrMoney.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
+        labelCurrMoney.setText("Rp -");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -115,10 +150,10 @@ public class Overview extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(tfIncome)
-                                    .addComponent(tfOutcome)
-                                    .addComponent(tfCurrMoney, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE))))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelOutcome, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelCurrMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -126,21 +161,21 @@ public class Overview extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(48, 48, 48)
+                .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(tfIncome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
+                    .addComponent(labelIncome))
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(tfOutcome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
+                    .addComponent(labelOutcome))
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(tfCurrMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelCurrMoney))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
@@ -153,9 +188,9 @@ public class Overview extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelCurrMoney;
+    private javax.swing.JLabel labelIncome;
+    private javax.swing.JLabel labelOutcome;
     private javax.swing.JTable table;
-    private javax.swing.JTextField tfCurrMoney;
-    private javax.swing.JTextField tfIncome;
-    private javax.swing.JTextField tfOutcome;
     // End of variables declaration//GEN-END:variables
 }

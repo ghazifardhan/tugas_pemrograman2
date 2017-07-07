@@ -42,10 +42,10 @@
                                   <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="tfIncome" max="32767" attributes="0"/>
-                                  <Component id="tfOutcome" max="32767" attributes="0"/>
-                                  <Component id="tfCurrMoney" alignment="0" pref="198" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="labelIncome" min="-2" pref="164" max="-2" attributes="0"/>
+                                  <Component id="labelOutcome" min="-2" pref="164" max="-2" attributes="0"/>
+                                  <Component id="labelCurrMoney" min="-2" pref="164" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -60,24 +60,24 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="tfIncome" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="labelIncome" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="tfOutcome" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="labelOutcome" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="tfCurrMoney" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="labelCurrMoney" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="503" max="-2" attributes="0"/>
-              <EmptySpace pref="33" max="32767" attributes="0"/>
+              <EmptySpace pref="42" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -106,12 +106,6 @@
         <Property name="text" type="java.lang.String" value="CURRENT MONEY"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="tfIncome">
-    </Component>
-    <Component class="javax.swing.JTextField" name="tfOutcome">
-    </Component>
-    <Component class="javax.swing.JTextField" name="tfCurrMoney">
-    </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -136,5 +130,29 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="labelIncome">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Open Sans" size="12" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Rp -"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelOutcome">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Open Sans" size="12" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Rp -"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelCurrMoney">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Open Sans" size="12" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Rp -"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

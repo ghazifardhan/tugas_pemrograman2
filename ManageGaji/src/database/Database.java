@@ -21,7 +21,7 @@ public class Database {
     
     private static String dbName = "manage_gaji";
     private static String dbUserName = "root";
-    private static String dbPassWord = "";
+    private static String dbPassWord = "markibid";
     
     public static Connection GetConnection() throws SQLException{        
         if(conn == null){
