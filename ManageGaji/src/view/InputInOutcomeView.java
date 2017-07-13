@@ -23,7 +23,8 @@ public class InputInOutcomeView extends javax.swing.JInternalFrame {
      * Creates new form InputInOutcomeView
      */
     ArrayList<Account> itemAccount = new ArrayList<Account>();
-    ArrayList<Category> itemCategory = new ArrayList<Category>();
+    ArrayList<Category> itemCategoryIncome = new ArrayList<Category>();
+    ArrayList<Category> itemCategoryExpense = new ArrayList<Category>();
     Integer asset_id, category_id, trans_type;
     public InputInOutcomeView() {
         initComponents();
@@ -229,7 +230,11 @@ public class InputInOutcomeView extends javax.swing.JInternalFrame {
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         // TODO add your handling code here:
         asset_id = itemAccount.get(cbAccount.getSelectedIndex()).getId();
-        category_id = itemCategory.get(cbCategory.getSelectedIndex()).getId();
+        if(trans_type == 1){
+            category_id = itemCategoryIncome.get(cbCategory.getSelectedIndex()).getId();
+        } else {
+            category_id = itemCategoryExpense.get(cbCategory.getSelectedIndex()).getId();
+        }
         
         Integer amount = Integer.parseInt(tfAmount.getText());
         String date =  ((JTextField)dcDate.getDateEditor().getUiComponent()).getText();
@@ -265,8 +270,12 @@ public class InputInOutcomeView extends javax.swing.JInternalFrame {
         ResultSet rs = Database.searchData("category", query);
         try{
             while(rs.next()){
-               itemCategory.add(new Category(rs.getInt("id"), rs.getInt("type_id"), rs.getString("name")));
-               cbCategory.addItem(rs.getString("name"));
+                if(type_id == 1){
+                    itemCategoryIncome.add(new Category(rs.getInt("id"), rs.getInt("type_id"), rs.getString("name")));
+                } else {
+                    itemCategoryExpense.add(new Category(rs.getInt("id"), rs.getInt("type_id"), rs.getString("name")));
+                }               
+                cbCategory.addItem(rs.getString("name"));
             }
         } catch(SQLException ex){
             ex.getMessage();

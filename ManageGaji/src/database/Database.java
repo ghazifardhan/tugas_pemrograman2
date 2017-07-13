@@ -21,7 +21,7 @@ public class Database {
     
     private static String dbName = "manage_gaji";
     private static String dbUserName = "root";
-    private static String dbPassWord = "markibid";
+    private static String dbPassWord = "";
     
     public static Connection GetConnection() throws SQLException{        
         if(conn == null){
@@ -94,7 +94,19 @@ public class Database {
         ResultSet rs= null;
         try{
             Statement stmt = (Statement) Database.GetConnection().createStatement();
-            String query = "SELECT a.id, b.name as account, c.name as type, d.name as category, a.amount, a.transaction_date, a.description FROM inoutcome as a JOIN asset as b ON b.id = a.asset_id JOIN type as c ON c.id = a.transaction_type JOIN category as d ON d.id = a.category_id";
+            String query = "SELECT a.id, b.name as account, c.name as type, d.name as category, a.amount, a.transaction_date, a.description FROM inoutcome as a JOIN asset as b ON b.id = a.asset_id JOIN type as c ON c.id = a.transaction_type JOIN category as d ON d.id = a.category_id order by a.id DESC";
+            rs = stmt.executeQuery(query);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return rs;
+    }
+    
+    public static ResultSet generateInOutSearch(String text){
+        ResultSet rs= null;
+        try{
+            Statement stmt = (Statement) Database.GetConnection().createStatement();
+            String query = "SELECT a.id, b.name as account, c.name as type, d.name as category, a.amount, a.transaction_date, a.description FROM inoutcome as a JOIN asset as b ON b.id = a.asset_id JOIN type as c ON c.id = a.transaction_type JOIN category as d ON d.id = a.category_id where " + text;
             rs = stmt.executeQuery(query);
         } catch(Exception e){
             e.printStackTrace();

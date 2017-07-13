@@ -49,7 +49,26 @@ public class Overview extends javax.swing.JInternalFrame {
         ResultSet rs = Database.generateInOut();
         try{
             while(rs.next()){
-               Object[] data = { rs.getString("id"), rs.getString("account"), rs.getString("type"), rs.getString("category"), IndonesiaCurrency.format(rs.getInt("amount")), rs.getString("transaction_date"), rs.getString("description")};
+               Object[] data = { rs.getString("account"), rs.getString("type"), rs.getString("category"), IndonesiaCurrency.format(rs.getInt("amount")), rs.getString("transaction_date"), rs.getString("description")};
+               model.addRow(data);
+               if(rs.getString("type").equals("Income")){
+                   in.add(rs.getInt("amount"));
+               } else {
+                   out.add(rs.getInt("amount"));
+               }                   
+            }
+        } catch(SQLException ex){
+            ex.getMessage();
+        }
+    }
+    
+    private void generateSearch(String text){
+        model.setRowCount(0);
+        String query = " d.name like '%"+text+"%' or a.description like '%"+text+"%'";
+        ResultSet rs = Database.generateInOutSearch(query);
+        try{
+            while(rs.next()){
+               Object[] data = { rs.getString("account"), rs.getString("type"), rs.getString("category"), IndonesiaCurrency.format(rs.getInt("amount")), rs.getString("transaction_date"), rs.getString("description")};
                model.addRow(data);
                if(rs.getString("type").equals("Income")){
                    in.add(rs.getInt("amount"));
@@ -97,6 +116,8 @@ public class Overview extends javax.swing.JInternalFrame {
         labelIncome = new javax.swing.JLabel();
         labelOutcome = new javax.swing.JLabel();
         labelCurrMoney = new javax.swing.JLabel();
+        tfSearch = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -117,7 +138,7 @@ public class Overview extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "No", "Account", "Type", "Category", "Amont", "Date", "Description"
+                "Account", "Type", "Category", "Amont", "Date", "Description"
             }
         ));
         jScrollPane1.setViewportView(table);
@@ -131,6 +152,13 @@ public class Overview extends javax.swing.JInternalFrame {
         labelCurrMoney.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
         labelCurrMoney.setText("Rp -");
 
+        jButton1.setText("Search");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -143,7 +171,7 @@ public class Overview extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1022, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -151,38 +179,57 @@ public class Overview extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelOutcome, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelCurrMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(67, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(labelCurrMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(labelOutcome, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(labelIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 565, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(tfSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(75, 75, 75)
+                                                .addComponent(jButton1)))))))))
+                .addGap(58, 58, 58))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(54, 54, 54)
+                .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(labelIncome))
-                .addGap(34, 34, 34)
+                    .addComponent(labelIncome)
+                    .addComponent(tfSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(labelOutcome))
-                .addGap(36, 36, 36)
+                    .addComponent(labelOutcome)
+                    .addComponent(jButton1))
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(labelCurrMoney))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String text = tfSearch.getText();
+        generateSearch(text);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -192,5 +239,6 @@ public class Overview extends javax.swing.JInternalFrame {
     private javax.swing.JLabel labelIncome;
     private javax.swing.JLabel labelOutcome;
     private javax.swing.JTable table;
+    private javax.swing.JTextField tfSearch;
     // End of variables declaration//GEN-END:variables
 }
