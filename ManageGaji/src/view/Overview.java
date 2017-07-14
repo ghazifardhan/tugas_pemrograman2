@@ -11,7 +11,11 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+import model.Account;
 
 /**
  *
@@ -29,9 +33,13 @@ public class Overview extends javax.swing.JInternalFrame {
     
     DecimalFormat IndonesiaCurrency = (DecimalFormat) DecimalFormat.getCurrencyInstance();
     DecimalFormatSymbols RupiahFormat = new DecimalFormatSymbols();
-    
-    public Overview() {
+    String tipe_data1, tipe_data2, from_date, to_date;
+    private TableRowSorter<TableModel> rowSorter;
+    public Overview(String tipe1, String tipe2, String fromDate, String toDate) {
         initComponents();
+        
+        model = (DefaultTableModel) table.getModel();
+        this.rowSorter = new TableRowSorter<>(table.getModel());
         
         RupiahFormat.setCurrencySymbol("Rp ");
         RupiahFormat.setMonetaryDecimalSeparator(',');
@@ -39,9 +47,15 @@ public class Overview extends javax.swing.JInternalFrame {
 
         IndonesiaCurrency.setDecimalFormatSymbols(RupiahFormat);
         
-        model = (DefaultTableModel) table.getModel();
-        generateData();
+        tipe_data1 = tipe1;
+        tipe_data2 = tipe2;
+        from_date = fromDate;
+        to_date = toDate;
+        
+        table.setRowSorter(rowSorter);
+        generateSearch(tipe_data1, tipe_data2, from_date, to_date, "");
         arraySum();
+        generateFilter();
     }
 
     private void generateData(){
@@ -62,9 +76,20 @@ public class Overview extends javax.swing.JInternalFrame {
         }
     }
     
-    private void generateSearch(String text){
+    private void generateSearch(String text1, String text2, String text3, String text4, String text5){
         model.setRowCount(0);
-        String query = " d.name like '%"+text+"%' or a.description like '%"+text+"%'";
+        String query;
+        if(text1.equals("") && text2.equals("expense")){
+            query = "c.name = '"+text2+"' and a.transaction_date BETWEEN '"+text3+"' and '"+text4+"'";
+        } else if(text1.equals("income") && text2.equals("")){
+            query = "c.name = '"+text1+"' and a.transaction_date BETWEEN '"+text3+"' and '"+text4+"'";
+        } else {
+            query = "c.name = '"+text1+"' or c.name = '"+text2+"' and a.transaction_date BETWEEN '"+text3+"' and '"+text4+"'";
+        }
+        
+        System.out.println(text1);
+        System.out.println(text2);
+        System.out.println(query);
         ResultSet rs = Database.generateInOutSearch(query);
         try{
             while(rs.next()){
@@ -118,6 +143,8 @@ public class Overview extends javax.swing.JInternalFrame {
         labelCurrMoney = new javax.swing.JLabel();
         tfSearch = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        cbFilter = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setIconifiable(true);
@@ -159,19 +186,30 @@ public class Overview extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Filter Berdasarkan Akun");
+
+        cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Pilih--" }));
+        cbFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbFilterActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(471, 471, 471)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 986, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -186,12 +224,15 @@ public class Overview extends javax.swing.JInternalFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(labelOutcome, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(labelIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 565, Short.MAX_VALUE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(tfSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(75, 75, 75)
-                                                .addComponent(jButton1)))))))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(tfSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cbFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1))))
                 .addGap(58, 58, 58))
         );
         layout.setVerticalGroup(
@@ -204,18 +245,22 @@ public class Overview extends javax.swing.JInternalFrame {
                     .addComponent(jLabel2)
                     .addComponent(labelIncome)
                     .addComponent(tfSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(labelOutcome)
-                    .addComponent(jButton1))
-                .addGap(31, 31, 31)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(labelCurrMoney))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         pack();
@@ -224,16 +269,39 @@ public class Overview extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         String text = tfSearch.getText();
-        generateSearch(text);
+        rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void cbFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFilterActionPerformed
+        // TODO add your handling code here:
+        String search;
+        if(cbFilter.getSelectedIndex() == 0){
+            search = "";
+        } else {
+            search = cbFilter.getSelectedItem().toString();
+        }
+        rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + search));
+    }//GEN-LAST:event_cbFilterActionPerformed
+
+    private void generateFilter(){
+        ResultSet rs = Database.selectData("asset");
+        try{
+            while(rs.next()){
+               cbFilter.addItem(rs.getString("name"));
+            }
+        } catch(SQLException ex){
+            ex.getMessage();
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbFilter;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelCurrMoney;
     private javax.swing.JLabel labelIncome;
